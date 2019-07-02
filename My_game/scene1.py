@@ -9,4 +9,4 @@ def setup(scene):
     scene.add(Player())
 
 
-ppb.run()
+ppb.run(setup=setup)
