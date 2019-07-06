@@ -4,6 +4,7 @@ from ppb.events import KeyPressed, KeyReleased
 
 
 class Player(ppb.BaseSprite):
+    size = 0.5
     position = ppb.Vector(0, -3)
     direction = ppb.Vector(0, 0)
     speed = 4
@@ -30,7 +31,7 @@ class Player(ppb.BaseSprite):
 
 
 class Projectile(ppb.BaseSprite):
-    size = 1
+    size = 0.5
     direction = ppb.Vector(0, 1)
     speed = 6
 
@@ -43,10 +44,21 @@ class Projectile(ppb.BaseSprite):
 
 
 class Target(ppb.BaseSprite):
+    size = 1.25
+
+    def on_update(self, update_event, signal):
+        for p in update_event.scene.get(kind=Projectile):
+            if(p.position - self.position).length <= self.size:
+                update_event.scene.remove(self)
+                update_event.scene.remove(p)
+                break
 
 
 def setup(scene):
     scene.add(Player())
+
+    for x in range(-4, 5, 2):
+        scene.add(Target(position=ppb.Vector(x, 3)))
 
 
 ppb.run(setup=setup)
