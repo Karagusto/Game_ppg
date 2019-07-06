@@ -131,7 +131,7 @@ def ai_turn(c_choice, h_choice):
         return
 
     clean()
-    print(f'Computer turn [{c_choice}]')
+    print(f'Meu turno [{c_choice}]')
     render(board, c_choice, h_choice)
 
     if depth == 9:
@@ -159,23 +159,22 @@ def human_turn(c_choice, h_choice):
     }
 
     clean()
-    print(f'Human turn [{h_choice}]')
+    print(f'Seu turno [{h_choice}]')
     render(board, c_choice, h_choice)
 
     while move < 1 or move > 9:
         try:
-            move = int(input('Use numpad (1..9): '))
+            move = int(input('Escolha um número de 1 a 9): '))
             coord = moves[move]
             can_move = set_move(coord[0], coord[1], opponent_gain)
 
             if not can_move:
-                print('Bad move')
+                print('Não pode')
                 move = -1
         except (EOFError, KeyboardInterrupt):
-            print('Bye')
+            print('Não pode')
             exit()
-        except (KeyError, ValueError):
-            print('Bad choice')
+
 
 
 def main():
@@ -188,12 +187,12 @@ def main():
     while h_choice != 'O' and h_choice != 'X':
         try:
             print('')
-            h_choice = input('Choose X or O\nChosen: ').upper()
+            h_choice = input('Jogar com X ou O\nEscolha: ').upper()
         except (EOFError, KeyboardInterrupt):
-            print('Bye')
+            print('Erro')
             exit()
         except (KeyError, ValueError):
-            print('Bad choice')
+            print('Erro, fechando...')
 
     # Setting computer's choice
     if h_choice == 'X':
@@ -205,12 +204,12 @@ def main():
     clean()
     while first != 'Y' and first != 'N':
         try:
-            first = input('First to start?[y/n]: ').upper()
+            first = input('Quer começar?[y/n]: ').upper()
         except (EOFError, KeyboardInterrupt):
-            print('Bye')
+            print('Erro')
             exit()
         except (KeyError, ValueError):
-            print('Bad choice')
+            print('Erro, fechando...')
 
     # Main loop of this game
     while len(empty_cells(board)) > 0 and not game_over(board):
@@ -224,18 +223,18 @@ def main():
     # Game over message
     if victory(board, opponent_gain):
         clean()
-        print(f'Human turn [{h_choice}]')
+        print(f'Seu turno [{h_choice}]')
         render(board, c_choice, h_choice)
-        print('YOU WIN!')
+        print('VOCE VENCEU!')
     elif victory(board, my_gain):
         clean()
-        print(f'Computer turn [{c_choice}]')
+        print(f'Meu turno [{c_choice}]')
         render(board, c_choice, h_choice)
-        print('YOU LOSE!')
+        print('VOCE PERDEU HAHAHA!')
     else:
         clean()
         render(board, c_choice, h_choice)
-        print('DRAW!')
+        print('EMPATE!')
 
     exit()
 
